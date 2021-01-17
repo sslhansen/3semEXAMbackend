@@ -43,16 +43,15 @@ import utils.HttpUtils;
  *
  * @author Tas
  */
-@Path("dog")
-public class DogResource {
+@Path("admin")
+public class AdminResource {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private Gson gson = new Gson();
     private final DogFacade dogFacade = DogFacade.getDogFacade(EMF);
-    private ExecutorService threadPool = Executors.newCachedThreadPool();
     private final AdminFacade adminFacade = AdminFacade.getAdminFacade(EMF);
-
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
+
     @Context
     private UriInfo context;
 
@@ -65,44 +64,13 @@ public class DogResource {
         return "{\"msg\":\"Hello World\"}";
     }
 
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("add-dog")
-    @RolesAllowed("user")
-    public String addDog(String jsonString) throws MissingDogInfoException {
-        DogDTO dogDTO;
-        try {
-            JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
-            String userName = json.get("userName").getAsString();
-            String name = json.get("name").getAsString();
-            String dateOfBirth = json.get("dateOfBirth").getAsString();
-            String info = json.get("info").getAsString();
-            String breed = json.get("breed").getAsString();
-            dogDTO = new DogDTO(null, name, dateOfBirth, info, breed);
-            dogFacade.addDog(userName, dogDTO);
-        } catch (MissingDogInfoException | NullPointerException s) {
-            return "{\"msg\":\"Missing dog information!\"}";
-        }
-        return "{\"msg\":\"Dog added\"}";
-    }
-
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("get-dogs/{userName}")
-    @RolesAllowed("user")
-    public String getDogs(@PathParam("userName") String userName) {
-        List<DogDTO> dogs = dogFacade.getDogs(userName);
-        return gson.toJson(dogs);
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("get-dogs/breeds")
-    public String getDogs() throws IOException {
-        adminFacade.addSearch();
-        String breeds = HttpUtils.fetchData("https://dog-info.cooljavascript.dk/api/breed");
-        JsonObject json = JsonParser.parseString(breeds).getAsJsonObject();
-        return GSON.toJson(json.getAsJsonArray("dogs"));
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("get-calls")
+    //@RolesAllowed("admin")
+    public String getCalls() {
+        long searches = adminFacade.getAmountOfSearches();
+         return "{\"searches\":\"" + searches + "\"}";
     }
 
 }
