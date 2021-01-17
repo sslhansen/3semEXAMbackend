@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dtos.DogDTO;
 import entities.Dog;
+import errorhandling.MissingDogInfoException;
 import facades.DogFacade;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
@@ -29,8 +30,7 @@ import utils.EMF_Creator;
 /**
  *
  * @author Tas
- */ 
-
+ */
 @Path("dog")
 public class DogResource {
 
@@ -44,29 +44,35 @@ public class DogResource {
 
     @Context
     SecurityContext securityContext;
-    
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("add-dog")
     //@RolesAllowed("user")
-    public String addDog(String jsonString) {
+    public String addDog(String jsonString) throws MissingDogInfoException {
         DogDTO dogDTO;
-        JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
-        String userName = json.get("userName").getAsString();
-        String name = json.get("name").getAsString();
-        String dateOfBirth = json.get("dateOfBirth").getAsString();
-        String info = json.get("info").getAsString();
-        String breed = json.get("breed").getAsString();
-        dogDTO = new DogDTO(null, name, dateOfBirth, info, breed);
-        dogFacade.addDog(userName, dogDTO);
+        try {
+            JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
+            String userName = json.get("userName").getAsString();
+            String name = json.get("name").getAsString();
+            String dateOfBirth = json.get("dateOfBirth").getAsString();
+            String info = json.get("info").getAsString();
+            String breed = json.get("breed").getAsString();
+            dogDTO = new DogDTO(null, name, dateOfBirth, info, breed);
+            dogFacade.addDog(userName, dogDTO);
+        } catch (MissingDogInfoException s) {
+            return "{\"msg\":\"Missing dog information!\"}";
+        } catch (NullPointerException e) {
+            return "{\"msg\":\"Missing dog information!\"}";
+        }
         return "{\"msg\":\"Dog added\"}";
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("get-dogs/{userName}")
     public String getDogs(@PathParam("userName") String userName) {
         List<DogDTO> dogs = dogFacade.getDogs(userName);
         return gson.toJson(dogs);
-    } 
+    }
 }

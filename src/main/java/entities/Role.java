@@ -18,6 +18,7 @@ import javax.validation.constraints.Size;
  * @author Plaul
  */
 @Entity
+@NamedQuery(name = "Role.deleteAllRows", query = "DELETE from Role")
 @Table(name = "roles")
 public class Role implements Serializable {
 

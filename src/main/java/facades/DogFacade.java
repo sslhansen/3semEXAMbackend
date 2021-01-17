@@ -8,6 +8,7 @@ package facades;
 import dtos.DogDTO;
 import entities.Dog;
 import entities.User;
+import errorhandling.MissingDogInfoException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -39,14 +40,19 @@ public class DogFacade {
         return instance;
     }
 
-    public void addDog(String userName, DogDTO dogDTO) {
+    public void addDog(String userName, DogDTO dogDTO) throws MissingDogInfoException {
         EntityManager em = emf.createEntityManager();
         try {
-            em.getTransaction().begin();
-            User user = em.find(User.class, userName);
-            Dog dog = new Dog(dogDTO.getName(), dogDTO.getDateOfBirth(), dogDTO.getInfo(), dogDTO.getBreed());
-            user.addDog(dog);
-            em.getTransaction().commit();
+            if (!(userName.isEmpty() || dogDTO.getName().isEmpty() || dogDTO.getDateOfBirth().isEmpty() || dogDTO.getInfo().isEmpty() || dogDTO.getBreed().isEmpty())) {
+                em.getTransaction().begin();
+                User user = em.find(User.class, userName);
+                Dog dog = new Dog(dogDTO.getName(), dogDTO.getDateOfBirth(), dogDTO.getInfo(), dogDTO.getBreed());
+                user.addDog(dog);
+                em.getTransaction().commit();
+            } else {
+                throw new MissingDogInfoException();
+            }
+
         } finally {
             em.close();
         }
