@@ -3,15 +3,7 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import entities.User;
-import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -24,16 +16,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import utils.EMF_Creator;
-import utils.HttpUtils;
 
 /**
  * @author lam@cphbusiness.dk
  */
 @Path("info")
 public class DemoResource {
-
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private Gson gson = new Gson();
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
     @Context
@@ -81,9 +69,7 @@ public class DemoResource {
         String thisuser = securityContext.getUserPrincipal().getName();
         return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
     }
-    
-    
-    
+
 //
 //    @GET
 //    @Path("extern")
@@ -150,5 +136,4 @@ public class DemoResource {
 //        String json = GSON.toJson(combined);
 //        return json;
 //    }
-
 }

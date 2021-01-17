@@ -1,10 +1,8 @@
 package facades;
 
 import entities.Searches;
-import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import security.errorhandling.AuthenticationException;
 
 public class AdminFacade {
 

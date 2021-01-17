@@ -3,7 +3,6 @@ package facades;
 import dtos.DogDTO;
 import entities.Dog;
 import utils.EMF_Creator;
-import entities.RenameMe;
 import entities.Role;
 import entities.User;
 import errorhandling.MissingDogInfoException;

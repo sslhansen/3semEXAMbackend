@@ -1,18 +1,14 @@
 package facades;
 
-import dtos.DogDTO;
 import entities.Dog;
 import utils.EMF_Creator;
-import entities.RenameMe;
 import entities.Role;
 import entities.Searches;
 import entities.User;
-import errorhandling.MissingDogInfoException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
