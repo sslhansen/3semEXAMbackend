@@ -101,4 +101,8 @@ public class User implements Serializable {
         }
     }
 
+    public List<Dog> getDogs() {
+        return dogs;
+    }
+
 }

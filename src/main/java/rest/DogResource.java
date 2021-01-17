@@ -10,11 +10,15 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dtos.DogDTO;
+import entities.Dog;
 import facades.DogFacade;
+import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -56,6 +60,13 @@ public class DogResource {
         dogDTO = new DogDTO(name, dateOfBirth, info, breed);
         dogFacade.addDog(userName, dogDTO);
         return "{\"msg\":\"Dog added\"}";
-    }    
-
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("get-dogs/{userName}")
+    public String getDogs(@PathParam("userName") String userName) {
+        List<DogDTO> dogs = dogFacade.getDogs(userName);
+        return gson.toJson(dogs);
+    } 
 }
