@@ -1,90 +1,59 @@
 package dtos;
 
-
 public class CombinedDTO {
-    
-    private String activity, type, price, foodImage, programmerQuote, author, kanyeSays, dogPicture;
 
-    public CombinedDTO(BoredDTO boredDTO, KanyeDTO kanyeDTO, RandomDogDTO randomDogDTO) {
-        this.activity = boredDTO.getActivity();
-        this.type = boredDTO.getType();
-        this.price = boredDTO.getPrice();
+    private String breed;
+    private String image;
+    private String facts;
+    private String info;
+    private String wikipedia;
 
-        this.kanyeSays = kanyeDTO.getQuote();
-
-        this.dogPicture = randomDogDTO.getMessage();
-        
+    public CombinedDTO(String breed, String info, String wikipedia, String image, String facts) {
+        this.breed = breed;
+        this.wikipedia = wikipedia;
+        this.image = image;
+        this.facts = facts;
+        this.info = info;
     }
 
-    public CombinedDTO() {
+    public String getBreed() {
+        return breed;
     }
 
-    public String getActivity() {
-        return activity;
-    }
-
-    public void setActivity(String activity) {
-        this.activity = activity;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
+    public void setBreed(String breed) {
+        this.breed = breed;
     }
 
     public String getImage() {
-        return foodImage;
+        return image;
     }
 
     public void setImage(String image) {
-        this.foodImage = image;
+        this.image = image;
     }
 
-    public String getEn() {
-        return programmerQuote;
+    public String getFacts() {
+        return facts;
     }
 
-    public void setEn(String en) {
-        this.programmerQuote = en;
+    public void setFacts(String facts) {
+        this.facts = facts;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getInfo() {
+        return info;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setInfo(String info) {
+        this.info = info;
     }
 
-    public String getQuote() {
-        return kanyeSays;
+    public String getWikipedia() {
+        return wikipedia;
     }
 
-    public void setQuote(String quote) {
-        this.kanyeSays = quote;
+    public void setWikipedia(String wikipedia) {
+        this.wikipedia = wikipedia;
     }
 
-    public String getMessage() {
-        return dogPicture;
-    }
-
-    public void setMessage(String message) {
-        this.dogPicture = message;
-    }
-    
-    
-    
-    
-    
 }
