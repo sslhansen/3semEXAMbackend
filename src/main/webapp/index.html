@@ -5,6 +5,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <h1>Change or remove this page</h1>
+        <h1>Links to endpoints:</h1>
+        <div>/api/dog/add-dog Post method for adding dog, only usable by users</div>
+        <div>/api/dog/get-dogs/{userName} Gets dogs for a user, only usable by users</div>
+        <div>/api/dog/get-dogs/breeds Gets all breeds, fetched from link provided</div>
+        <div>/api/dog-breed/{breedName} Gets information for a breed, fetched from links provided</div>
+        <h2>Admin:</h2>
+        <div>/api/admin/get-calls Gets all breed-calls done, only usable by admin</div>
+        <div>/api/admin/get-calls/{breedName} Gets all breed-calls done to a specific breed, only usable by admin</div>
     </body>
 </html>
