@@ -13,6 +13,7 @@ import dtos.DogDTO;
 import entities.Dog;
 import errorhandling.MissingDogInfoException;
 import facades.DogFacade;
+import java.io.IOException;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
@@ -26,6 +27,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 import utils.EMF_Creator;
+import utils.HttpUtils;
 
 /**
  *
@@ -44,7 +46,7 @@ public class DogResource {
 
     @Context
     SecurityContext securityContext;
-    
+
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String demo() {
@@ -81,4 +83,16 @@ public class DogResource {
         List<DogDTO> dogs = dogFacade.getDogs(userName);
         return gson.toJson(dogs);
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("get-dogs/breeds")
+    public String getDogs() throws IOException {
+        String breeds = HttpUtils.fetchData("https://dog-info.cooljavascript.dk/api/breed");
+        JsonObject json = JsonParser.parseString(breeds).getAsJsonObject();
+        return GSON.toJson(json.getAsJsonArray("dogs"));
+    }
+
+    
+    
 }
