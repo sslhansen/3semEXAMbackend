@@ -111,6 +111,7 @@ public class DogBreedResource {
             String infoString = futureInfo.get(2, TimeUnit.SECONDS);
             String infoStringWikipedia = futureWikipedia.get(2, TimeUnit.SECONDS);
             String factString = futureFact.get(2, TimeUnit.SECONDS);
+            adminFacade.addSpecificSearch(breedName);
             CombinedDTO combined = new CombinedDTO(breedName, infoString, infoStringWikipedia, imageString, factString);
             return GSON.toJson(combined);
         } catch (ExecutionException e) {

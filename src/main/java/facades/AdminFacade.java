@@ -39,6 +39,18 @@ public class AdminFacade {
         }
     }
 
+    public void addSpecificSearch(String breedName) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            Searches s = new Searches(breedName);
+            em.persist(s);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
     public Long getAmountOfSearches() {
         EntityManager em = emf.createEntityManager();
         try {
@@ -49,7 +61,18 @@ public class AdminFacade {
         } finally {
             em.close();
         }
+    }
 
+    public Long getAmountOfSpecificSearches(String breedName) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            long searchCount = (long) em.createQuery("SELECT COUNT(e) FROM Searches e WHERE e.breedName = :breedName").setParameter("breedName", breedName).getSingleResult();
+            em.getTransaction().commit();
+            return searchCount;
+        } finally {
+            em.close();
+        }
     }
 
 }

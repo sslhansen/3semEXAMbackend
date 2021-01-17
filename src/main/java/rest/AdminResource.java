@@ -67,10 +67,19 @@ public class AdminResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("get-calls")
-    //@RolesAllowed("admin")
+    @RolesAllowed("admin")
     public String getCalls() {
         long searches = adminFacade.getAmountOfSearches();
-         return "{\"searches\":\"" + searches + "\"}";
+        return "{\"searches\":\"" + searches + "\"}";
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("get-calls/{breedName}")
+    @RolesAllowed("admin")
+    public String getSpecificCalls(@PathParam("breedName") String breedName) {
+        long searches = adminFacade.getAmountOfSpecificSearches(breedName);
+        return "{\"searches\":\"" + searches + "\"}";
     }
 
 }

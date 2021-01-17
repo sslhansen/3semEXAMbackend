@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 //Uncomment the line below, to temporarily disable this test
 //@Disabled
 
-public class DogResourceTest {
+public class AdminResourceTest {
 
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_URL = "http://localhost/api";
@@ -73,6 +73,7 @@ public class DogResourceTest {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
+            em.createNamedQuery("Searches.deleteAllRows").executeUpdate();
             em.createNamedQuery("Dog.deleteAllRows").executeUpdate();
             em.createNamedQuery("Role.deleteAllRows").executeUpdate();
             em.createNamedQuery("User.deleteAllRows").executeUpdate();
@@ -135,57 +136,68 @@ public class DogResourceTest {
                 .body("msg", equalTo("Hello World"));
     }
 
-    //Working, but its in array
-//    @Test
-//    public void testGetDogsForUser() {
-//        login("user", "test1");
-//        given()
-//                .contentType("application/json")
-//                .accept(ContentType.JSON)
-//                .header("x-access-token", securityToken)
-//                .when()
-//                .get("/dog/get-dogs/user").then()
-//                .statusCode(200)
-//                .body("name", equalTo("[hej]"));
-//    }
     @Test
-    public void testAddDog() {
-        login("user", "test1");
-        String json = String.format("{\n"
-                + "    \"userName\": \"user\",\n"
-                + "    \"name\": \"try\", \n"
-                + "    \"dateOfBirth\": \"khj\",\n"
-                + "    \"info\": \"Its pretty cute\",\n"
-                + "    \"breed\": \"meow\"\n"
-                + "}");
+    public void testGetCalls() {
+        login("admin", "test1");
         given()
                 .contentType("application/json")
                 .header("x-access-token", securityToken)
-                .body(json)
-                .when().post("/dog/add-dog")
+                .when().get("/admin/get-calls")
                 .then()
                 .statusCode(200)
-                .body("msg", equalTo("Dog added"));
+                .body("searches", equalTo("2"));
     }
 
     @Test
-    public void testAddDogFailing() {
+    public void testGetCallsAsUser() {
         login("user", "test1");
-        String json = String.format("{\n"
-                + "    \"userName\": \"\",\n"
-                + "    \"name\": \"try\", \n"
-                + "    \"dateOfBirth\": \"khj\",\n"
-                + "    \"info\": \"Its pretty cute\",\n"
-                + "    \"breed\": \"meow\"\n"
-                + "}");
         given()
                 .contentType("application/json")
                 .header("x-access-token", securityToken)
-                .body(json)
-                .when().post("/dog/add-dog")
+                .when().get("/admin/get-calls")
+                .then()
+                .statusCode(401);
+    }
+
+    @Test
+    public void testGetCallsNotLoggedIn() {
+        given()
+                .contentType("application/json")
+                .when().get("/admin/get-calls")
+                .then()
+                .statusCode(403);
+    }
+
+    @Test
+    public void testGetSpecificCallsNotLoggedIn() {
+        given()
+                .contentType("application/json")
+                .when().get("/admin/get-calls/potatis")
+                .then()
+                .statusCode(403);
+    }
+
+    @Test
+    public void testGetSpecificCallsAsUser() {
+        login("user", "test1");
+        given()
+                .contentType("application/json")
+                .header("x-access-token", securityToken)
+                .when().get("/admin/get-calls/potatis")
+                .then()
+                .statusCode(401);
+    }
+
+    @Test
+    public void testGetSpecificCalls() {
+        login("admin", "test1");
+        given()
+                .contentType("application/json")
+                .header("x-access-token", securityToken)
+                .when().get("/admin/get-calls/potatis")
                 .then()
                 .statusCode(200)
-                .body("msg", equalTo("Missing dog information!"));
+                .body("searches", equalTo("1"));
     }
 
 }
