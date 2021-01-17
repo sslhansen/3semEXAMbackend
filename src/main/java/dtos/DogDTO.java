@@ -11,16 +11,26 @@ package dtos;
  */
 public class DogDTO {
 
+    private Long id;
     private String name;
     private String dateOfBirth;
     private String info;
     private String breed;
 
-    public DogDTO(String name, String dateOfBirth, String info, String breed) {
+    public DogDTO(Long id, String name, String dateOfBirth, String info, String breed) {
+        this.id = id;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.info = info;
         this.breed = breed;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

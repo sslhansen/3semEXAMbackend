@@ -23,7 +23,7 @@ public class Dog implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
     private String name;
     private String dateOfBirth;
     private String info;

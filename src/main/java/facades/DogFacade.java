@@ -61,7 +61,7 @@ public class DogFacade {
             TypedQuery<Dog> userQuery = em.createQuery("SELECT a FROM Dog a WHERE a.user.userName = :username", Dog.class);
             List<Dog> doggies = userQuery.setParameter("username", userName).getResultList();
             for (Dog dawg : doggies) {
-                dogs.add(new DogDTO(dawg.getName(), dawg.getDateOfBirth(), dawg.getInfo(), dawg.getBreed()));
+                dogs.add(new DogDTO(dawg.getId(), dawg.getName(), dawg.getDateOfBirth(), dawg.getInfo(), dawg.getBreed()));
             }
             em.getTransaction().commit();
             return dogs;

@@ -57,7 +57,7 @@ public class DogResource {
         String dateOfBirth = json.get("dateOfBirth").getAsString();
         String info = json.get("info").getAsString();
         String breed = json.get("breed").getAsString();
-        dogDTO = new DogDTO(name, dateOfBirth, info, breed);
+        dogDTO = new DogDTO(null, name, dateOfBirth, info, breed);
         dogFacade.addDog(userName, dogDTO);
         return "{\"msg\":\"Dog added\"}";
     }
